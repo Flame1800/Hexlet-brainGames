@@ -1,4 +1,7 @@
 #! /usr/bin/env node
-import evenGame from ".."
+import readlineSync, { question } from 'readline-sync';
+import  getName  from '..';
+import { isEven, getRandNum } from '../libs';
+import evenGame from "../games/brain-even"
 
 evenGame();
