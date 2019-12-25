@@ -1,10 +1,9 @@
-import getRandNum from './libs';
+import { getRandNum, plus, minus, mult } from './libs';
 import readlineSync, { question } from 'readline-sync';
+import { cons, car, cdr, toString } from '@hexlet/pairs';
 
 export const getName = () => {
-  const name = readlineSync.question('May I have your name? ');
-  console.log(`Hi ${name}!`);
-  return name;
+
 }
 
 export const brainGames = () => {
@@ -14,43 +13,40 @@ export const brainGames = () => {
   return name;
 }
 
- 
-export const content = (question, boolAnswer, textAnswer = boolAnswer, breakAnswer, q2 = question, q3 = question) => {
-  let count = 1;
 
-  if (count == 3) {
-    return console.log('Congratulations, ' + name + '!');
-  }
+export const gameConst = (QuestionAnswerGen, desk) => {
+  console.log(desk)
+  const name = readlineSync.question('May I have your name? ');
+  console.log(`Hi ${name}!`);
+  
+  const content = (QuestionAnswerGen, count = 0, q2 = question, q3 = question) => {
 
-  if (count == 1) console.log('Question: ' + question);
-  if (count == 2) {
-    console.log('Question: ' + q2);
-    randNum = getRandNum(); 
-    randNum2 = getRandNum(); 
-  }
-  if (count == 3) {
-    console.log('Question: ' + q3);
-    randNum = getRandNum(); 
-    randNum2 = getRandNum(); 
-  }
+    if (count == 3) return console.log('Congratulations, ' + name + '!');
+    
+    let countAnswer = count + 1;
 
-  const answer = readlineSync.question("Your answer: ");
+    const QuestionAnswer = QuestionAnswerGen(countAnswer);
+    const question = car(QuestionAnswer);
+    const rightAnswer = cdr(QuestionAnswer);
 
-  if (breakAnswer) {
-    console.log('Is wrong answer!');
-    return content(count);
-  }
+    console.log('Question: ' + question);
+    const answer = readlineSync.question("Your answer: ");
 
-  if (answer == textAnswer) {
-    if (boolAnswer) {
+    if (answer == rightAnswer) {
       console.log('Correct!');
-      return content(count += 1);
+      return content(QuestionAnswerGen, count += 1);
+    }
+    if (answer !== rightAnswer) {
+      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${rightAnswer}'. Let's try again, ${name}! `)
+      return content(QuestionAnswerGen, count);
     }
     else {
-      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${RightAnswer}'. Let's try again, ${name}! `)
-      return content(count);
+      console.log('Is wrong answer!');
+      return content(QuestionAnswerGen, count);
     }
   }
+
+  return content(QuestionAnswerGen);
 }
 
 
