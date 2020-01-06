@@ -19,7 +19,7 @@ export const gameConst = (QuestionAnswerGen, desk) => {
   const name = readlineSync.question('May I have your name? ');
   console.log(`Hi ${name}!`);
   
-  const content = (QuestionAnswerGen, count = 0, q2 = question, q3 = question) => {
+  const content = (QuestionAnswerGen, count = 0) => {
 
     if (count == 3) return console.log('Congratulations, ' + name + '!');
     
@@ -28,6 +28,9 @@ export const gameConst = (QuestionAnswerGen, desk) => {
     const QuestionAnswer = QuestionAnswerGen(countAnswer);
     const question = car(QuestionAnswer);
     const rightAnswer = cdr(QuestionAnswer);
+    
+    // Проверка ответы ************************
+    // console.log(`Answer.dev: ${rightAnswer}`);
 
     console.log('Question: ' + question);
     const answer = readlineSync.question("Your answer: ");
